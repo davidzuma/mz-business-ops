@@ -1,0 +1,6 @@
+# Local secrets and business data
+.env
+.env.*
+data/
+**/client-exports/
+**/customers/
