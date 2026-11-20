@@ -4,3 +4,5 @@
 data/
 **/client-exports/
 **/customers/
+__pycache__/
+*.py[cod]
