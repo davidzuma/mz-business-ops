@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>{{TITLE}}</title>
+<style>
+{{FONTS}}
+
+/* ============ MZtech proposal design system ============
+   Slide canvas: 1920 x 1080 CSS px -> prints to 1440 x 810 pt (16:9).
+   Palette derived from media/mztechlogo.jpg:
+   navy #282769 · blue #1a407e · cyan #178dc2 · sky #16add8
+   Type: Poppins (headings) + Be Vietnam Pro (body), as in the
+   reference proposal (examples/Ebro Fleet Control Proposal.pdf). */
+:root {
+  --ink: #101038;          /* headings + body text (deep navy) */
+  --navy: #282769;         /* brand navy */
+  --blue: #1a407e;         /* brand mid blue */
+  --cyan: #178dc2;         /* brand cyan: numbers, rules, links */
+  --sky: #16add8;          /* bright cyan: gradients, bars */
+  --muted: #596580;        /* footer + secondary text */
+  --bg: #eef3fa;           /* pale blue slide background */
+  --card: #ffffff;
+  --line: #d7e0ef;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { size: 1920px 1080px; margin: 0; }
+html, body { background: var(--bg); }
+body { font-family: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif; color: var(--ink); }
+
+.slide {
+  position: relative;
+  width: 1920px; height: 1080px;
+  padding: 58px 160px 90px;
+  background: var(--bg);
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+}
+.slide:last-child { page-break-after: auto; break-after: auto; }
+
+/* Footer (every slide except cover) */
+.footer {
+  position: absolute; left: 48px; right: 48px; bottom: 38px;
+  display: flex; justify-content: space-between;
+  font-size: 16px; color: var(--muted);
+}
+
+/* Section header: accent number + title + rule */
+.sec-head { display: flex; align-items: baseline; gap: 22px; }
+.sec-num { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 40px; color: var(--cyan); }
+.sec-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 40px; color: var(--ink); }
+.sec-rule { height: 3px; background: var(--cyan); margin: 18px 0 44px; }
+
+h2.slide-sub { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 32px; margin-bottom: 28px; }
+h3.block { font-size: 24px; font-weight: 600; margin: 30px 0 14px; }
+h3.block:first-of-type { margin-top: 0; }
+p, li { font-size: 20px; line-height: 1.55; }
+p + p { margin-top: 16px; }
+strong { font-weight: 600; }
+a { color: var(--cyan); font-weight: 500; }
+ul.bullets { list-style: none; }
+ul.bullets li { position: relative; padding-left: 30px; margin-bottom: 14px; }
+ul.bullets li::before { content: ''; position: absolute; left: 4px; top: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--navy); }
+.note { font-size: 18px; color: var(--muted); }
+
+/* Cover */
+.slide.cover {
+  padding: 0;
+  background:
+    radial-gradient(900px 620px at 12% -8%, rgba(22,173,216,.55), rgba(22,173,216,0) 68%),
+    radial-gradient(1200px 760px at 88% -12%, rgba(40,39,105,.75), rgba(40,39,105,0) 70%),
+    radial-gradient(700px 480px at 55% -6%, rgba(26,64,126,.45), rgba(26,64,126,0) 70%),
+    linear-gradient(180deg, #dfe9f7 0%, var(--bg) 62%);
+}
+.cover-center { position: absolute; top: 330px; left: 0; right: 0; text-align: center; }
+.cover-brand { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 64px; color: var(--navy); letter-spacing: -1px; }
+.cover-logo { height: 310px; }
+.cover-tagline { margin-top: 44px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 37px; line-height: 1.3; }
+.cover-tagline .t2 { color: var(--cyan); }
+.cover-title { position: absolute; left: 80px; bottom: 92px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 47px; }
+
+/* Table of contents */
+.toc { margin-top: 26px; }
+.toc-row { display: flex; align-items: baseline; font-size: 20px; padding: 9px 0; border-bottom: 1px dotted var(--line); }
+.toc-row .n { color: var(--cyan); font-weight: 600; min-width: 52px; }
+.toc-row.sub { padding-left: 52px; font-size: 19px; }
+.toc-row.sub .n { min-width: 60px; font-weight: 500; }
+.toc-row .t { flex: 1; }
+.toc-row .pg { color: var(--muted); }
+
+/* Demo / split slides: visual left, text right */
+.split { display: flex; gap: 64px; align-items: flex-start; }
+.split .visual { flex: 0 0 1030px; }
+.split .visual img { width: 100%; border-radius: 18px; box-shadow: 0 24px 60px rgba(16,16,56,.28); }
+.split .copy { flex: 1; padding-top: 8px; }
+.split .copy.solo { max-width: 1200px; }
+.split .copy h3 { font-size: 26px; font-weight: 600; margin-bottom: 20px; }
+.split .copy p { margin-bottom: 18px; }
+
+/* Tables (team, pricing, maintenance) */
+table.tbl { width: 100%; border-collapse: collapse; font-size: 20px; }
+table.tbl th { text-align: left; font-weight: 600; padding: 14px 18px; border-bottom: 2px solid var(--navy); }
+table.tbl td { padding: 15px 18px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+table.tbl tr.total td { font-weight: 600; border-bottom: none; border-top: 2px solid var(--navy); }
+table.tbl .num, table.tbl th.num { text-align: right; white-space: nowrap; }
+table.tbl td .concept { font-weight: 600; }
+.terms { margin-top: 34px; }
+.terms p { margin-bottom: 12px; }
+.terms .fine { margin-top: 26px; font-size: 18px; color: var(--muted); }
+
+/* Gantt */
+.gantt { margin-top: 36px; }
+.gantt-grid { display: grid; column-gap: 0; }
+.gantt .month { font-size: 16px; font-weight: 600; text-align: center; padding-bottom: 6px; }
+.gantt .week { font-size: 15px; color: var(--muted); text-align: center; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.gantt .row-label { font-size: 19px; padding: 12px 16px 12px 0; align-self: center; }
+.gantt .cell { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); height: 48px; }
+.gantt .bar { height: 26px; border-radius: 13px; align-self: center; margin: 0 4px; }
+.bar.navy { background: var(--navy); } .bar.blue { background: var(--blue); }
+.bar.cyan { background: var(--cyan); } .bar.sky { background: var(--sky); }
+.bar.slate { background: var(--muted); }
+
+/* Metrics */
+.metrics { display: flex; gap: 60px; margin-top: 60px; }
+.metric { flex: 1; background: var(--card); border-radius: 20px; padding: 44px 40px; min-height: 520px; box-shadow: 0 14px 40px rgba(16,16,56,.08); display: flex; flex-direction: column; }
+.metric .big { font-size: 48px; font-weight: 600; line-height: 1.2; margin-top: auto; }
+.metric .cap { font-size: 20px; font-weight: 500; color: var(--ink); margin-bottom: 30px; }
+
+/* Case studies */
+.case .meta { font-size: 20px; margin-bottom: 8px; }
+.case .meta strong { font-weight: 600; }
+.case-block { margin-top: 22px; }
+.case-block .k { font-size: 16px; font-weight: 600; letter-spacing: .12em; color: var(--cyan); margin-bottom: 6px; }
+.case .visual img { width: 100%; border-radius: 16px; box-shadow: 0 18px 48px rgba(16,16,56,.22); }
+.case .client-logo { height: 56px; margin-bottom: 22px; mix-blend-mode: multiply; }
+
+/* Legal + acceptance */
+.legal ul.bullets li { margin-bottom: 20px; }
+.accept { margin-top: 44px; }
+.accept h2 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 28px; margin-bottom: 16px; }
+.sign-cols { display: flex; gap: 120px; margin-top: 44px; }
+.sign-col { flex: 1; }
+.sign-col .entity { font-size: 21px; font-weight: 600; }
+.sign-col .rep { font-size: 16px; color: var(--muted); margin-top: 10px; }
+.sign-col .name { font-size: 21px; font-weight: 500; margin-top: 46px; }
+.sign-col .line { margin-top: 8px; border-top: 1px solid var(--muted); padding-top: 8px; font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+{{SLIDES}}
+</body>
+</html>

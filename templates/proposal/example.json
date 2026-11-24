@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "language": "es",
+    "client_short": "Nordia",
+    "client_legal": "Nordia Logistics SL",
+    "project": "Dock Scheduler",
+    "title": "Nordia - Dock Scheduler",
+    "year": 2026,
+    "tagline": [
+      "Ingeniería de Software",
+      "que convierte ideas en sistemas"
+    ],
+    "company": {
+      "brand": "MZtech",
+      "legal_name": "",
+      "tax_id": "",
+      "signatory": ""
+    },
+    "validity_days": 30,
+    "payment_terms": "50% del pago por adelantado. 50% restante a 60 días factura mediante transferencia bancaria.",
+    "overrun_clause": "Si, tras cambios de requisitos o ampliación del ámbito del proyecto por parte del cliente, el tiempo empleado supera las horas estimadas de alguna fase, se notificará previamente al equipo y comenzará a aplicarse la bolsa de horas adicional."
+  },
+  "demo": {
+    "slides": [
+      {
+        "title": "Calendario de muelles",
+        "heading": "Calendario de disponibilidad",
+        "note": "Mockup de referencia: no constituye especificación funcional ni diseño cerrado. Datos ficticios, sin backend ni gestión de usuarios real.",
+        "caption": "Vista semanal de muelles con reservas por <strong>transportista y matrícula</strong>, estados visuales (solicitada, aprobada, en uso) y acceso rápido a <strong>nueva reserva</strong>.",
+        "image": "",
+        "url": "https://demo.example.com/dock-scheduler",
+        "url_label": "este enlace"
+      },
+      {
+        "title": "Panel de aprobaciones",
+        "heading": "Panel de aprobaciones",
+        "caption": "Cola de solicitudes pendientes con indicadores de <strong>solapamiento</strong>, acciones de aprobar/rechazar e historial reciente de decisiones.",
+        "image": ""
+      }
+    ]
+  },
+  "scope": {
+    "intro": [
+      "El departamento de Operaciones de Nordia gestiona hoy las citas de carga y descarga (~18 muelles, ~40 transportistas) mediante hojas de cálculo y solicitudes informales. Se propone <strong>Dock Scheduler</strong>: herramienta digital centralizada de calendario y reservas, trazable y gobernada, con despliegue productivo en la cuenta cloud del cliente e identidad corporativa.",
+      "La solución responde a los objetivos del RFP: centralizar solicitudes, visualizar disponibilidad en calendario y formalizar el circuito <strong>solicitud → aprobación → entrega → devolución</strong>."
+    ],
+    "items": [
+      "<strong>Calendario de disponibilidad</strong> con reserva por día completo y por franjas horarias; circuito solicitud → aprobación → ejecución con responsable por muelle en cada periodo.",
+      "<strong>Catálogo de muelles y transportistas</strong> con alta, edición y baja por Operaciones; aprobación siempre requerida.",
+      "<strong>Detección y bloqueo</strong> de reservas solapadas sobre el mismo muelle; aviso al solicitante y al aprobador.",
+      "<strong>Trazabilidad completa</strong> con marcas de tiempo e identidad en cada transición; historial consultable por activo y periodo.",
+      "<strong>Notificaciones por email</strong> ante cambios de estado de la reserva.",
+      "<strong>Entorno privado de tests</strong> en infra MZtech (UE); producción en cuenta cloud del cliente."
+    ],
+    "exclusions": [
+      "Integración obligatoria con ERP, TMS o herramientas de mensajería.",
+      "Reservas recurrentes y registro de métricas de carga/descarga.",
+      "Migración del histórico de reservas desde hojas de cálculo. (Incluible)",
+      "Evolutivos fuera del alcance contratado o de la bolsa de mantenimiento; requieren estimación aparte.",
+      "Consumo cloud y licencias de identidad en cuenta del cliente: a cargo del cliente."
+    ]
+  },
+  "functional": [
+    {
+      "heading": "Panel de control (Operaciones)",
+      "items": [
+        "Vista agregada de disponibilidad de muelles y estado de activos (disponible, reservado, en uso, mantenimiento, fuera de servicio).",
+        "Cola de solicitudes y reservas pendientes de aprobación.",
+        "Indicadores de uso, disponibilidad y ocupación."
+      ]
+    },
+    {
+      "heading": "Consulta y KPIs",
+      "items": [
+        "Consulta histórica por muelle/transportista y fecha.",
+        "KPIs acordados en arranque: ocupación, reservas por periodo y tiempo medio de aprobación; ventana últimos 30 / 90 días."
+      ]
+    },
+    {
+      "heading": "Seguimiento del proyecto",
+      "items": [
+        "Reuniones periódicas de seguimiento y validación con Operaciones e IT.",
+        "Demos semanales sobre staging durante el desarrollo; UAT formal previo al go-live."
+      ]
+    }
+  ],
+  "architecture": [
+    {
+      "heading": "Stack tecnológico",
+      "items": [
+        "<strong>Cliente:</strong> SPA React + Vite (TypeScript), responsive escritorio/tablet/móvil; calendario interactivo.",
+        "<strong>API:</strong> Node.js (REST) tras proxy inverso.",
+        "<strong>Persistencia:</strong> PostgreSQL (región UE); esquema versionado con migraciones; registro de auditoría.",
+        "<strong>Operación:</strong> contenedores Docker y CI/CD; mismo artefacto desplegable en staging y producción."
+      ]
+    },
+    {
+      "heading": "Dos vías de despliegue en paralelo",
+      "items": [
+        "<strong>Staging MZtech (UE):</strong> despliegue en 1–2 días sin coste adicional tras arranque; datos de prueba, sin usuarios ni tráfico real.",
+        "<strong>Producción cliente:</strong> aprovisionamiento en cuenta cloud del cliente con autenticación corporativa; plazo más largo por políticas y accesos internos."
+      ],
+      "note": "El desarrollo funcional avanza sobre staging mientras, en paralelo, se gestiona el aprovisionamiento en producción. Tras UAT en staging, se promueve el mismo artefacto a producción."
+    }
+  ],
+  "security": [
+    {
+      "heading": "Gestión de usuarios",
+      "items": [
+        "<strong>Autenticación:</strong> identidad corporativa del cliente (OIDC); sin registro público ni credenciales locales.",
+        "<strong>Administrador Operaciones:</strong> aprobar/rechazar, gestión de catálogo y altas/bajas de acceso en la aplicación.",
+        "<strong>Solicitante:</strong> crear solicitudes y consultar disponibilidad y estado de sus propias solicitudes; sin permisos de aprobación."
+      ]
+    },
+    {
+      "heading": "Medidas de seguridad",
+      "items": [
+        "HTTPS obligatorio (TLS ≥ 1.2); cabeceras de seguridad según OWASP.",
+        "Cifrado en tránsito y en reposo; backups cifrados diarios; auditoría de acciones críticas.",
+        "RGPD: DPA Art. 28 antes de tratar datos personales; datos en EEE; staging aislado sin datos personales reales."
+      ]
+    },
+    {
+      "heading": "Disponibilidad y continuidad",
+      "items": [
+        "Objetivo de disponibilidad ≥ 99 % en horario laboral; sin SLA 24×7.",
+        "RPO ≤ 24 h y RTO ≤ 8 h laborables mediante backups cifrados y procedimiento documentado.",
+        "Pentesting previo al go-live incluido."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "#1",
+      "html": "<strong>Estados del activo:</strong> disponible, reservado, en uso, mantenimiento, fuera de servicio."
+    },
+    {
+      "id": "#2",
+      "html": "<strong>Estados de la reserva:</strong> solicitada, aprobada, rechazada, entregada, devuelta, cerrada, cancelada."
+    },
+    {
+      "id": "#3",
+      "html": "<strong>Franjas y solapamientos:</strong> reserva mínima 1 hora; el sistema impide solapamientos en el mismo activo."
+    },
+    {
+      "id": "#4",
+      "html": "<strong>Cancelación/modificación:</strong> el solicitante puede cancelar o modificar mientras esté en *solicitada*; Operaciones puede cancelar en cualquier estado previo a *cerrada*."
+    },
+    {
+      "id": "#5",
+      "html": "<strong>Emails al solicitante en:</strong> solicitud registrada, aprobada, rechazada, entregada, devuelta y cancelada."
+    },
+    {
+      "id": "#6",
+      "html": "<strong>Auditoría:</strong> login, CRUD de catálogo, transiciones de reserva y edición de comentarios; retención 24 meses salvo otro plazo legal."
+    },
+    {
+      "id": "#7",
+      "html": "<strong>Móvil:</strong> interfaz responsive apta para tablet/móvil en muelle; sin app nativa."
+    }
+  ],
+  "planning": {
+    "summary": "<strong>Plazo de implantación: ~7 semanas</strong> hasta go-live y mantenimiento posterior: 2 meses (bolsa de 50 h, ampliable). Las fases de desarrollo en staging e infraestructura del cliente corren <strong>en paralelo</strong> a partir de la semana 2.",
+    "phases": [
+      {
+        "label": "Fase 1",
+        "html": "workshops con Operaciones e IT; flujos UX; documento de arquitectura y mapeo de identidad."
+      },
+      {
+        "label": "Fase 2",
+        "html": "MVP en staging MZtech (catálogo, calendario, reservas, aprobaciones, email, panel); demos semanales."
+      },
+      {
+        "label": "Fase 3 (paralela)",
+        "html": "aprovisionamiento cloud del cliente, integración de identidad, pipelines CI/CD y hardening."
+      },
+      {
+        "label": "Fase 4",
+        "html": "UAT, correcciones, go-live en producción, pentesting y handover."
+      }
+    ],
+    "gantt": {
+      "weeks": 15,
+      "months": [
+        {
+          "label": "Mes 1",
+          "span": 4
+        },
+        {
+          "label": "Mes 2",
+          "span": 4
+        },
+        {
+          "label": "Mes 3",
+          "span": 4
+        },
+        {
+          "label": "Mes 4",
+          "span": 3
+        }
+      ],
+      "bars": [
+        {
+          "label": "1 · Arranque y diseño",
+          "start": 1,
+          "end": 1,
+          "color": "navy"
+        },
+        {
+          "label": "2 · Desarrollo + staging",
+          "start": 2,
+          "end": 5,
+          "color": "cyan"
+        },
+        {
+          "label": "3 · Infra cliente + identidad",
+          "start": 2,
+          "end": 6,
+          "color": "blue"
+        },
+        {
+          "label": "4 · UAT y go-live",
+          "start": 6,
+          "end": 7,
+          "color": "sky"
+        },
+        {
+          "label": "5 · Mantenimiento",
+          "start": 8,
+          "end": 15,
+          "color": "slate"
+        }
+      ]
+    }
+  },
+  "team": {
+    "rows": [
+      {
+        "role": "Senior Software Engineer",
+        "scope": "Hands-on integral: diseño técnico, implementación e integraciones hasta producción."
+      },
+      {
+        "role": "Auditor Senior de Ciberseguridad",
+        "scope": "Pruebas de ciberseguridad, identificación de vulnerabilidades."
+      }
+    ],
+    "rhythm": "Un Senior Software Engineer cubre diseño, desarrollo full-stack, despliegue en staging y producción, e integración de identidad. Un Auditor Senior de Ciberseguridad realiza pentesting previo al go-live (8 h dedicación). Ciclos cortos con demos semanales sobre staging.",
+    "collab": [
+      "Canal del proyecto en la herramienta corporativa: coordinación, ficheros y seguimiento día a día.",
+      "Reuniones semanales de alineación: avances, demo del progreso y feedback.",
+      "Entorno de staging completamente privado accesible para pruebas sin tráfico real.",
+      "Transparencia sobre dependencias (accesos cloud, identidad, políticas de red)."
+    ]
+  },
+  "pricing": {
+    "items": [
+      {
+        "phase": "Fase 1",
+        "concept": "Arranque, arquitectura y diseño",
+        "detail": "Workshops, flujos UX, documento de arquitectura y mapeo de identidad",
+        "duration": "1 semana",
+        "amount": 2080
+      },
+      {
+        "phase": "Fase 2",
+        "concept": "Desarrollo core + staging privado rápido",
+        "detail": "MVP en infra MZtech: calendario, reservas, aprobaciones, email, panel y trazabilidad",
+        "duration": "3 semanas",
+        "amount": 5525
+      },
+      {
+        "phase": "Fase 3",
+        "concept": "Infra cliente + identidad",
+        "detail": "Aprovisionamiento cloud, SSO, pipelines CI/CD y hardening (en paralelo con Fase 2)",
+        "duration": "3 semanas",
+        "amount": 3575
+      },
+      {
+        "phase": "Fase 4",
+        "concept": "UAT y go-live",
+        "detail": "Pruebas con Operaciones, correcciones, producción y handover",
+        "duration": "2 semanas",
+        "amount": 2600
+      },
+      {
+        "phase": "Auditoría",
+        "concept": "Pentesting previo al go-live",
+        "detail": "Pruebas de ciberseguridad, informe de hallazgos y priorización conjunta de remediación",
+        "duration": "8 h",
+        "amount": 800
+      }
+    ]
+  },
+  "maintenance": {
+    "intro": "Tras el go-live, 2 meses de soporte con bolsa de <strong>50 h de Senior Software Engineer</strong>. Cubre correcciones, ajustes de configuración y pequeñas mejoras acordadas. Facturación por adelantado al inicio del periodo. La bolsa es ampliable por bloques de 50 h con el mismo funcionamiento y tarifa.",
+    "includes": [
+      "Soporte correctivo sobre la aplicación en producción (no operación de infra ni consumo cloud).",
+      "Evolutivos ligeros dentro del cupo de horas (p. ej. ajustes de flujos, textos, reglas de reserva, KPIs adicionales).",
+      "Parches de seguridad y actualizaciones menores del stack acordado.",
+      "Las horas no utilizadas al cierre del periodo no se arrastran; aviso 1 mes antes de la caducidad y periodo de gracia de 15 días."
+    ],
+    "items": [
+      {
+        "concept": "Mantenimiento 2 meses post go-live",
+        "hours": "50 h × 65 €/h",
+        "amount": 3250
+      },
+      {
+        "concept": "Ampliación (opcional)",
+        "hours": "Bloques de 50 h × 65 €/h",
+        "amount": "3.250€ / bloque"
+      }
+    ]
+  },
+  "costs": {
+    "intro": "Costes de terceros y recurrentes, independientes de los honorarios de MZtech. Importes orientativos sujetos a las tarifas vigentes de cada proveedor.",
+    "items": [
+      {
+        "concept": "Hosting (Vercel Pro)",
+        "kind": "Mensual",
+        "amount": "≈ 20 $ / mes",
+        "note": "A cargo del cliente; necesario para producción."
+      },
+      {
+        "concept": "Base de datos (Supabase Pro)",
+        "kind": "Mensual",
+        "amount": "≈ 25 $ / mes",
+        "note": "Plan gratuito suficiente para el arranque."
+      },
+      {
+        "concept": "Pasarela de pago (Stripe)",
+        "kind": "Por transacción",
+        "amount": "1,5 % + 0,25 €",
+        "note": "Tarjeta europea; sin cuota mensual."
+      },
+      {
+        "concept": "Dominio",
+        "kind": "Anual",
+        "amount": "≈ 12 € / año",
+        "note": "A cargo del cliente."
+      }
+    ],
+    "note": "Los importes marcados como orientativos deben confirmarse con el cliente antes de la aceptación."
+  },
+  "metrics": [
+    {
+      "big": "+150M de<br>usuarios",
+      "caption": "Software diseñado desde el principio para soportar alto tráfico sin pagar de más"
+    },
+    {
+      "big": "+50M de archivos<br>/mes",
+      "caption": "Sistemas ágiles que absorben cualquier carga de procesamiento."
+    },
+    {
+      "big": "+3M€ / año<br>gestionados",
+      "caption": "Presupuestos técnicos dimensionados con rigor para operar a escala sin sorpresas."
+    }
+  ],
+  "cases": [
+    {
+      "name": "Plataforma de vídeo a escala global",
+      "sector": "SaaS, Stock de Vídeo",
+      "solution": "Desarrollo de webapp completa para +150M usuarios y procesamiento de +6M de vídeos globalmente con respuestas en milisegundos.",
+      "duration": "10 meses",
+      "challenge": "Entrega de vídeo a escala global con picos de tráfico elevados, alta sensibilidad a latencia y riesgo de caídas.",
+      "solution_detail": "Arquitectura web distribuida geográficamente, con redundancia, autoescalado, capas de caché y optimización de entrega de vídeo.",
+      "impact": "+5M € revenue/año",
+      "image": "",
+      "logo": ""
+    }
+  ],
+  "legal": {
+    "items": [
+      {
+        "title": "Propiedad intelectual",
+        "html": "Toda la configuración y documentación entregada será propiedad del cliente. Una vez finalizado el servicio, MZtech no conservará acceso a dichos recursos."
+      },
+      {
+        "title": "Confidencialidad",
+        "html": "MZtech garantiza la máxima discreción y se compromete a no compartir información sensible ni técnica con terceros en ningún caso."
+      },
+      {
+        "title": "Responsabilidad limitada",
+        "html": "MZtech pondrá todos los medios razonables para prestar un servicio de calidad. En caso de incidencia relacionada con el servicio, la responsabilidad de MZtech se limitará al alcance y condiciones acordadas en la presente propuesta."
+      }
+    ],
+    "acceptance": ""
+  }
+}

@@ -11,6 +11,8 @@ outputs in `templates/`, and local working files in `data/`.
 
 - `/invoice` processes incoming vendor PDFs.
 - `/report` generates the weekly operations report.
+- `/proposal` drafts branded client proposal decks (PDF) for human review.
+- `/poc` builds mock-data prototypes deployed to Vercel for proposal demos.
 
 ## Safety
 

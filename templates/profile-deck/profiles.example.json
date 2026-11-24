@@ -1,0 +1,33 @@
+{
+  "title": "Role Profile Deck",
+  "slogan": "Simple, reliable technology",
+  "profiles": [
+    {
+      "role": "Professional role title",
+      "positioning": "Role-relevant strengths",
+      "summary": "Short summary supported by the supplied CV.",
+      "photo": "assets/profile-01.jpg",
+      "experience": [
+        {
+          "company": "Company name from source",
+          "title": "Position title from source",
+          "period": "Verified date range",
+          "highlights": [
+            "Concise, source-backed responsibility or achievement."
+          ]
+        }
+      ],
+      "education": [
+        {
+          "degree": "Verified degree or program",
+          "school": "Verified institution",
+          "period": "Verified date range"
+        }
+      ],
+      "skills": [],
+      "certifications": [],
+      "certification_badges": [],
+      "daily_rate": ""
+    }
+  ]
+}

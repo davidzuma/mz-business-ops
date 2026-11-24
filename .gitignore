@@ -6,3 +6,9 @@ data/
 **/customers/
 __pycache__/
 *.py[cod]
+
+# macOS
+.DS_Store
+
+# Local design reference (third-party client material; keep out of a public repo)
+examples/
