@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MZtech — LinkedIn banner</title>
+<style>
+/* Same design system as templates/proposal/deck.html (cover style).
+   Palette: navy #282769 · blue #1a407e · cyan #178dc2 · sky #16add8 */
+@font-face { font-family: 'Poppins'; font-weight: 500; src: url('../../../templates/proposal/fonts/Poppins-500.woff2') format('woff2'); }
+@font-face { font-family: 'Poppins'; font-weight: 600; src: url('../../../templates/proposal/fonts/Poppins-600.woff2') format('woff2'); }
+
+:root {
+  --ink: #101038;
+  --navy: #282769;
+  --blue: #1a407e;
+  --cyan: #178dc2;
+  --sky: #16add8;
+  --muted: #596580;
+  --bg: #eef3fa;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1584px; height: 396px; overflow: hidden; }
+
+.banner {
+  position: relative;
+  width: 1584px; height: 396px;
+  /* Cover gradients from deck.html, rescaled for the 4:1 canvas */
+  background:
+    radial-gradient(640px 330px at 10% -18%, rgba(22,173,216,.50), rgba(22,173,216,0) 68%),
+    radial-gradient(980px 460px at 90% -26%, rgba(40,39,105,.62), rgba(40,39,105,0) 72%),
+    radial-gradient(560px 280px at 55% -12%, rgba(26,64,126,.40), rgba(26,64,126,0) 70%),
+    linear-gradient(180deg, #dfe9f7 0%, var(--bg) 62%);
+}
+
+/* Typographic brand, as on the proposal cover (no logo image) */
+.brand {
+  position: absolute; left: 64px; top: 44px;
+  font-family: 'Poppins', sans-serif; font-weight: 600;
+  font-size: 34px; color: var(--navy); letter-spacing: -0.5px;
+}
+.brand .dot { color: var(--cyan); }
+
+/* Slogan block, kept right of the LinkedIn profile-photo overlap zone */
+.slogan { position: absolute; left: 560px; top: 108px; }
+.rule { width: 64px; height: 3px; background: var(--cyan); margin-bottom: 26px; }
+.l1 {
+  font-family: 'Poppins', sans-serif; font-weight: 500;
+  font-size: 42px; color: var(--navy); letter-spacing: -0.5px;
+}
+.l2 {
+  margin-top: 10px;
+  font-family: 'Poppins', sans-serif; font-weight: 600;
+  font-size: 68px; color: var(--ink); letter-spacing: -1.5px;
+}
+.l2 .t2 { color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="brand">MZtech<span class="dot">.</span></div>
+  <div class="slogan">
+    <div class="rule"></div>
+    <div class="l1">We don&rsquo;t build software.</div>
+    <div class="l2">We build <span class="t2">trust.</span></div>
+  </div>
+
+</div>
+</body>
+</html>
